@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <script src="https://kit.fontawesome.com/2d44146aac.js"></script>
+    <title>TCMBA Trails</title>
+    <!--<script defer src="scripts/fontawesome/all.js" async></script>-->
+
+    <style type=”text/css”>
+        #mapPage, #map {
+            height: 100%;
+        }
+
+        #map-content {
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+            z-index: -1;
+        }
+    </style>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="css/MarkerCluster.css" />
+    <link rel="stylesheet" type="text/css" href="css/MarkerCluster.Default.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+
+    <script type="text/javascript" src="/www/WinJS/js/base.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <!--<script type="text/javascript" src="scripts/leaflet.js"></script>
+    <script type="text/javascript" src="scripts/leaflet.markercluster-src.js"></script>-->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.0/leaflet.markercluster-src.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <script type="text/javascript">
+        var trailColors = {
+            level1: 'green',
+            level2: 'blue',
+            level3: 'red',
+            connection: 'black',
+            flowtrail: 'yellow'
+        };
+    </script>
+    <script type="text/javascript" src="scripts/Icons.js"></script>
+    <script type="text/javascript" src="scripts/Loops.js"></script>
+    <script type="text/javascript" src="scripts/trails.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="scripts/layers.js"></script>
+    <script type="text/javascript" src="scripts/mapShow.js"></script>
+
+    <div class="">
+        <div id="deviceready" class="app">
+        </div>
+    </div>
+
+    <div data-role="page">
+        <div data-role="header">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:25%">&nbsp;</td>
+                    <td style="width:50%;text-align:center"> <h2>TCMBA Trails</h2></td>
+                    <td style="width:25%;text-align:center"><h4><a href="https://www.paypal.me/TCMBA"> Donate</a> </h4></td>
+                </tr>
+            </table>
+        </div>
+        <div role="main" class="ui-content" style="border:groove">
+            <div data-role="tabs" id="tabs">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#one" data-ajax="false" class="ui-btn-active">Ridgeland</a></li>
+                        <li><a href="#two" data-ajax="false">Brown's</a></li>
+                        <li><a href="#three" data-ajax="false">Butts</a></li>
+                    </ul>
+
+                    <div id="one" class="" data-role="none">
+                        
+                        <table id="" class="ui-responsive">
+                            <tr>
+                                <td><h3 style="text-align:center">Ridgeland Trail Map</h3></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select id="ddlSearchTrails" >
+                                        <option value="all" selected>Individual Trails</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="display:none">
+                                <td>
+                                    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                        <input type="radio" name="radio-choice-tracks" id="btnMakeTrack" value="true">
+                                        <label for="btnMakeTrack">
+                                            <span id="lblMakeTrack">Make track</span>&nbsp;
+                                            <i id="iStartTrack" class="fas fa-play-circle" style="color:darkorange"></i>
+                                            <i id="iStopTrack" class="fas fa-stop-circle" style="color:darkorange;display:none"></i>
+                                        </label>
+                                        <input type="radio" name="radio-choice-tracks" id="btnSaveTrack" style="display:block" disabled="disabled">
+                                        <label id="lblSaveTrack" for="btnSaveTrack"><i class="far fa-save " style="color:darkorange"></i>&nbsp;Save</label>
+                                        <input type="radio" name="radio-choice-tracks" id="btnClearTrack" style="display:block" disabled="disabled">
+                                        <label id="lblClearTrack" for="btnClearTrack"><i class="fas fa-sync " style="color:darkorange"></i>&nbsp;Clear</label>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td id="dragArea" style="display:none;width:40px"></td>
+                                            <td><div id='map' style="width:90vw;height:60vh"></div></td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="two" class="">
+                        <h3 style="text-align:center">Brown's Landing Trail Map</h3>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3364.2010241632133!2d-89.97553424912074!3d32.52077760422019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8882783a171e5e57%3A0x81338a9656a7ce11!2sBrowns+Landing+Rd%2C+Canton%2C+MS+39046!5e0!3m2!1sen!2sus!4v1500473416673" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                    <div id="three" class="">
+                        <h3 style="text-align:center">Butts Park Trail Map</h3>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6744.572870608383!2d-90.3176336025519!3d32.304157592375994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86284a66968f521f%3A0x6ad662af9cd7a325!2sBuddy+Butts+Park%2C+6180+McRaven+Rd%2C+Jackson%2C+MS+39209!5e0!3m2!1sen!2sus!4v1500473113688" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
